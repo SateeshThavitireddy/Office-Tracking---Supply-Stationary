@@ -14,6 +14,7 @@ password: 'Sowmya',
 database: 'inventory_system'
 });
 
+
 connection.connect((err) => {
     if (err) {
         console.error('Error connecting to database:', err);
