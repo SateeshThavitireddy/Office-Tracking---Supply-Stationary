@@ -1,0 +1,52 @@
+import React, { useState, useEffect } from 'react';
+
+function PendingOrdersPage() {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/orders')
+      .then(response => response.json())
+      .then(data => setOrders(data));
+  }, []);
+
+  function getStatusLabel(statusCode) {
+    switch (statusCode) {
+      case 0:
+        return 'Pending';
+      case 1:
+        return 'In Progress';
+      case 2:
+        return 'Completed';
+      default:
+        return 'Unknown';
+    }
+  }
+
+  return (
+    <div>
+      <h1>Pending Orders</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Order Number</th>
+            <th>Date</th>
+            <th>Customer Name</th>
+            <th>Order Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map(order => (
+            <tr key={order.id}>
+              <td>{order.orderNumber}</td>
+              <td>{order.date}</td>
+              <td>{order.customerName}</td>
+              <td>{getStatusLabel(order.orderStatus)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+export default PendingOrdersPage;
