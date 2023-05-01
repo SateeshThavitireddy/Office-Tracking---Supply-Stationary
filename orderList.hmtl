@@ -1,0 +1,58 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+function App() {
+  const [orders, setOrders] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [quantity, setQuantity] = useState(0);
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const fetchOrders = async () => {
+    const response = await axios.get('/orders');
+    setOrders(response.data);
+  };
+
+  const handleSelectOrder = (id) => {
+    setSelectedOrder(orders.find(o => o.id === id));
+    setQuantity(orders.find(o => o.id === id).quantity);
+  };
+
+  const handleQuantityChange = (event) => {
+    setQuantity(event.target.value);
+  };
+
+  const handleUpdateOrder = async () => {
+    await axios.put(`/orders/${selectedOrder.id}`, { quantity });
+    fetchOrders();
+    setSelectedOrder(null);
+    setQuantity(0);
+  };
+
+  const handleDeleteOrder = async (id) => {
+    await axios.delete(`/orders/${id}`);
+    fetchOrders();
+    setSelectedOrder(null);
+    setQuantity(0);
+  };
+
+  return (
+    <div>
+      <h1>Order List</h1>
+      <ul>
+        {orders.map(order => (
+          <li key={order.id}>
+            <span>{order.item} - {order.quantity}</span>
+            <button onClick={() => handleSelectOrder(order.id)}>Edit</button>
+            <button onClick={() => handleDeleteOrder(order.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+      {selectedOrder &&
+        <div>
+          <h2>Edit Order</h2>
+          <p>Item: {selectedOrder.item}</p>
+          <p>Current Quantity: {selectedOrder.quantity}</p>
+          <label
