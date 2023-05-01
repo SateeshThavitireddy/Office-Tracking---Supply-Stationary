@@ -5,7 +5,6 @@ app.use(express.json());
 app.get('/orders', (req, res) => {
   res.json(orders);
 });
-
 app.get('/orders/:id', (req, res) => {
   const order = orders.find(o => o.id === parseInt(req.params.id));
   if (!order) {

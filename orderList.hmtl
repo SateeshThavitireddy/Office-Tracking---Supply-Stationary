@@ -5,7 +5,6 @@ function App() {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [quantity, setQuantity] = useState(0);
-
   useEffect(() => {
     fetchOrders();
   }, []);
