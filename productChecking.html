@@ -1,0 +1,30 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+
+function App() {
+  const [productName, setProductName] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleProductNameChange = (event) => {
+    setProductName(event.target.value);
+  };
+
+  const handleCheckProduct = async () => {
+    const response = await axios.post('/products/check', { name: productName });
+    setMessage(response.data.message);
+  };
+
+  return (
+    <div>
+      <h1>Check Product</h1>
+      <label>
+        Product Name:
+        <input type="text" value={productName} onChange={handleProductNameChange} />
+      </label>
+      <button onClick={handleCheckProduct}>Check</button>
+      {message && <p>{message}</p>}
+    </div>
+  );
+}
+
+export default App;
