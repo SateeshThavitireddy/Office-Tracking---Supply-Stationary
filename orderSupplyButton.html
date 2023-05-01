@@ -1,0 +1,27 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+
+function OrderSuppliesButton({ productId }) {
+  const [isOrdered, setIsOrdered] = useState(false);
+
+  const handleOrder = async () => {
+    try {
+      const response = await axios.post('/orders', { productId });
+      setIsOrdered(true);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return (
+    <div>
+      {isOrdered ? (
+        <p>Order placed successfully!</p>
+      ) : (
+        <button onClick={handleOrder}>Order Supplies</button>
+      )}
+    </div>
+  );
+}
+
+export default OrderSuppliesButton;
