@@ -8,7 +8,6 @@ function App() {
   useEffect(() => {
     fetchOrders();
   }, []);
-
   const fetchOrders = async () => {
     const response = await axios.get('/orders');
     setOrders(response.data);

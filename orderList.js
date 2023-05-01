@@ -12,7 +12,6 @@ app.get('/orders/:id', (req, res) => {
   }
   res.json(order);
 });
-
 app.put('/orders/:id', (req, res) => {
   const order = orders.find(o => o.id === parseInt(req.params.id));
   if (!order) {
@@ -21,7 +20,6 @@ app.put('/orders/:id', (req, res) => {
   order.quantity = req.body.quantity;
   res.json(order);
 });
-
 app.delete('/orders/:id', (req, res) => {
   const orderIndex = orders.findIndex(o => o.id === parseInt(req.params.id));
   if (orderIndex === -1) {
